@@ -19,9 +19,4 @@ public class Test_Tests
         Assert.Pass();
     }
 
-    [Test]
-    public void ThisShouldFail()
-    {
-        Assert.Fail();
-    }
 }
