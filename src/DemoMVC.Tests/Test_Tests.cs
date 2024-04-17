@@ -1,11 +1,13 @@
 using NUnit.Framework;
+using Microsoft.Playwright;
+using Microsoft.Playwright.NUnit;
 using DemoMVC.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 namespace DemoMVC.Tests;
 
 [TestFixture]
-public class Test_Tests
+public class Test_Tests : PageTest
 {
     [SetUp]
     public void Setup()
@@ -14,9 +16,10 @@ public class Test_Tests
     }
 
     [Test]
-    public void ThisShouldPass()
-    {
-        Assert.Pass();
+    public async Task TestGoogle()
+    {       
+        await Page.GotoAsync("https://google.ca");
+        await Expect(Page).ToHaveTitleAsync("Google");
     }
 
 }
