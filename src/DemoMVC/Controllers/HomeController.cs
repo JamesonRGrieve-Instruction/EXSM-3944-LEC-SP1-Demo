@@ -20,9 +20,12 @@ public class HomeController : Controller
         // Returning View() will inject the view into the layout and send it to the client.
         return View();
     }
-
-    public IActionResult Sample()
+    [HttpPost]
+    [HttpGet]
+    public IActionResult Sample(string? FirstName)
     {
+        ViewBag.FirstName = FirstName ?? "John";
+        ViewBag.LastName = "Doe";
         return View();
     }
 
