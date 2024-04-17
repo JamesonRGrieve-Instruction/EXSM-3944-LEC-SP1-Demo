@@ -21,8 +21,10 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore Solution Dependencies
-      run: pwd && cd src && dotnet restore
+      run: cd src && dotnet restore
     - name: Build Solution Projects
-      run: pwd && cd src && dotnet build DemoMVC.sln --no-restore
+      run: cd src && dotnet build DemoMVC.sln --no-restore
+    - name: Install Playwright Browser
+      run: cd src/DemoMVC.Tests && pwsh ./bin/Debug/netX/playwright.ps1 install
     - name: Test Project
-      run: pwd && cd src && dotnet test --no-build --verbosity normal
+      run: cd src && dotnet test --no-build --verbosity normal
