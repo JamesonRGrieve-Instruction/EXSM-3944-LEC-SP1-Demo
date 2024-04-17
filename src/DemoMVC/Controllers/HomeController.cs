@@ -12,6 +12,9 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
+    public HomeController()
+    {
+    }
 
     // According to the pathing schema defined in Program.cs, the controller will map views from the Views folder.
     // By default it will take the name of the controller as the folder, and the name of the function as the .cshtml file.
