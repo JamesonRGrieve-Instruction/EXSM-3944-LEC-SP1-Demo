@@ -22,8 +22,4 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DemoMVC\DemoMVC.csproj" />
-  </ItemGroup>
-
 </Project>
