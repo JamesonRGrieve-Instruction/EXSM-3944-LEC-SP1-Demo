@@ -1,5 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+@{
+    Dictionary<string, string> pages = new Dictionary<string, string>()
+    {
+        {"Home", "Home/Index"},
+        {"Privacy", "Home/Privacy"},
+        {"Razor Sample", "Home/Sample"},
+    };
+}
 
 <head>
     <meta charset="utf-8" />
@@ -21,17 +29,12 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
-                                asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sample">Razor
-                                Sample</a>
-                        </li>
+                        @foreach (KeyValuePair<string, string> page in pages) {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="@(page.Value.Split('/')[0])"
+                                    asp-action="@(page.Value.Split('/')[1])">@(page.Key)</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
