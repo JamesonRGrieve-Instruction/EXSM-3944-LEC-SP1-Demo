@@ -23,6 +23,6 @@ jobs:
     - name: Restore Solution Dependencies
       run: pwd && cd src && dotnet restore
     - name: Build Solution Projects
-      run: dotnet build DemoMVC.sln --no-restore
+      run: pwd && cd src && dotnet build DemoMVC.sln --no-restore
     - name: Test Project
-      run: dotnet test --no-build --verbosity normal
+      run: pwd && cd src && dotnet test --no-build --verbosity normal
