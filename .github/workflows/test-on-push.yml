@@ -20,9 +20,9 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
+    - name: Restore Solution Dependencies
       run: pwd && cd src && dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
+    - name: Build Solution Projects
+      run: dotnet build DemoMVC.sln --no-restore
+    - name: Test Project
       run: dotnet test --no-build --verbosity normal
