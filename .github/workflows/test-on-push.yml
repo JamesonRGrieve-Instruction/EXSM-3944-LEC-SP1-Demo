@@ -27,6 +27,6 @@ jobs:
     - name: Install Playwright Browser
       run: cd src/DemoMVC.Tests && pwsh ./bin/Debug/net8.0/playwright.ps1 install
     - name: Run MVC Server
-      run: cd src/DemoMVC && dotnet run --no-build
+      run: cd src/DemoMVC && dotnet run --no-build & 
     - name: Test Project
       run: cd src && dotnet test --no-build --verbosity normal
