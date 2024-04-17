@@ -1,0 +1,11 @@
+﻿@{
+    // Razor syntax allows the use of code blocks with the @{} syntax.
+    ViewData["Title"] = "Razor Sample";
+    // You can also inject variables into the HTML using the @ symbol.
+    string message = "Welcome to MVC";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@message</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
