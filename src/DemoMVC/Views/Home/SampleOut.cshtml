@@ -1,0 +1,10 @@
+@model DemoMVC.Models.SampleFormModel
+@{
+    // Razor syntax allows the use of code blocks with the @{} syntax.
+    ViewData["Title"] = "Razor Sample Output";
+    // You can also inject variables into the HTML using the @ symbol.
+    string message = $"Welcome to MVC, {Model.FirstName} {Model.LastName} ({Model.Email})!";
+}
+<div class="text-center">
+    <h1 class="display-4">@message</h1>
+</div>

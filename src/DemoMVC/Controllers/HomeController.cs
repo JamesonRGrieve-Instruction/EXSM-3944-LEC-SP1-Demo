@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DemoMVC.Models;
-
+using System.Text.Json;
 namespace DemoMVC.Controllers;
 
 public class HomeController : Controller
@@ -33,9 +33,11 @@ public class HomeController : Controller
 
     public IActionResult Sample([FromForm] SampleFormModel model)
     {
-        ViewBag.Errors = new List<string>();
+        // The initial request to a page will always be a GET, so if you want to only validate when data is submitted, you can do a POST check.
         if (Request.Method == "POST")
         {
+            // ModelState is automatically included in ViewData, so it's a little more semantic than using ViewBag.
+            // Automated validation can be done in multiple ways, which we will look at later.
             if (string.IsNullOrEmpty(model.FirstName))
             {
                 ModelState.AddModelError(nameof(model.FirstName), "First Name is required.");
@@ -44,10 +46,23 @@ public class HomeController : Controller
             {
                 ModelState.AddModelError(nameof(model.LastName), "Last Name is required.");
             }
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                ModelState.AddModelError(nameof(model.Email), "Email is required.");
+            }
+            if (ModelState.IsValid)
+            {
+                // TempData is required to pass data between redirects, as ViewData and ViewBag do not persist.
+                // This is encoded in a forwarded request, and therefore must be a primitive type (objects must be JSONified).
+                TempData["ValidatedModel"] = JsonSerializer.Serialize(model);
+                return RedirectToAction(nameof(SampleOut));
+            }
         }
-        return View(model ?? new SampleFormModel());
+        // Passing an argument to View() will inject the value into the @model (Model) of the view if it is set.
+        return View(model);
     }
-
+    // Since this action is just a renderer for already validated data, we can just deserialize the JSON directly into View().
+    public IActionResult SampleOut() => View(JsonSerializer.Deserialize<SampleFormModel>(TempData["ValidatedModel"] as string));
     public IActionResult Privacy()
     {
         return View();

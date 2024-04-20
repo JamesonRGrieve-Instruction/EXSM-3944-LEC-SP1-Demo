@@ -4,11 +4,10 @@
     // Razor syntax allows the use of code blocks with the @{} syntax.
     ViewData["Title"] = "Razor Sample";
     // You can also inject variables into the HTML using the @ symbol.
-    string message = $"Welcome to MVC, {ViewData.ModelState["FirstName"]?.RawValue ?? ""} {ViewData.ModelState["LastName"]?.RawValue ?? ""}!";
 }
 
 <div class="text-center">
-    <h1 class="display-4">@message</h1>
+    <h1 class="display-4">Enter Your Info</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <form asp-controller="Home" asp-action="Sample" method="post">
         @if (!ViewData.ModelState.IsValid)
@@ -22,7 +21,7 @@
             <div class="form-group">
                 <label for="@key">@key</label>
                 <input class="form-control" name="@key" value="@(ViewData.ModelState[key]?.RawValue ??"")">
-                @if(ViewData.ModelState[key]?.Errors != null)
+                @if (ViewData.ModelState[key]?.Errors != null)
                 {
                     @foreach (var error in ViewData.ModelState[key]?.Errors)
                     {
