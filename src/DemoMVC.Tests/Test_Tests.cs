@@ -15,7 +15,7 @@ public class Test_Tests : PageTest
     [Test]
     public async Task TestGoogle()
     {
-        await Page.GotoAsync("https://localhost:7121/home/sample");
+        await Page.GotoAsync("https://localhost:5203/home/sample");
         await Expect(Page).ToHaveTitleAsync("Razor Sample - DemoMVC");
         await Task.Delay(3000);
         await Page.FillAsync("input[name=FirstName]", "John");
