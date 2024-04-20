@@ -28,6 +28,6 @@ jobs:
       - name: Run MVC Server
         run: cd src/DemoMVC && dotnet run --no-build &
       - name: Test Project (Chrome)
-        run: cd src && dotnet test --no-build --verbosity normal --settings:chromium.runsettings
+        run: cd src && dotnet test --no-build --verbosity normal --settings:DemoMVC.Tests/chromium.runsettings
       - name: Test Project (Firefox)
-        run: cd src && dotnet test --no-build --verbosity normal --settings:firefox.runsettings
+        run: cd src && dotnet test --no-build --verbosity normal --settings:DemoMVC.Tests/firefox.runsettings
