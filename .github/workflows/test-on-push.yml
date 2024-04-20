@@ -5,28 +5,29 @@ name: .NET
 
 on:
   push:
-    branches: '*'
+    branches: "*"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore Solution Dependencies
-      run: cd src && dotnet restore
-    - name: Build Solution Projects
-      run: cd src && dotnet build DemoMVC.sln --no-restore
-    - name: Install Playwright Browser
-      run: cd src/DemoMVC.Tests && pwsh ./bin/Debug/net8.0/playwright.ps1 install
-    - name: Run MVC Server
-      run: cd src/DemoMVC && dotnet run --no-build & 
-    - name: Test Project
-      run: cd src && dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore Solution Dependencies
+        run: cd src && dotnet restore
+      - name: Build Solution Projects
+        run: cd src && dotnet build DemoMVC.sln --no-restore
+      - name: Install Playwright Browser
+        run: cd src/DemoMVC.Tests && pwsh ./bin/Debug/net8.0/playwright.ps1 install
+      - name: Run MVC Server
+        run: cd src/DemoMVC && dotnet run --no-build &
+      - name: Test Project (Chrome)
+        run: cd src && dotnet test --no-build --verbosity normal --settings:chromium.runsettings
+      - name: Test Project (Firefox)
+        run: cd src && dotnet test --no-build --verbosity normal --settings:firefox.runsettings
