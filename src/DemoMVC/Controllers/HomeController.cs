@@ -20,12 +20,31 @@ public class HomeController : Controller
         // Returning View() will inject the view into the layout and send it to the client.
         return View();
     }
-    [HttpPost]
+    // Rather than performing a decision to determine the method, you may find it easier to move the initial load into a dedicated GET handler.
+    /*
     [HttpGet]
-    public IActionResult Sample(string? FirstName)
+    public IActionResult Sample()
     {
-        ViewBag.FirstName = FirstName ?? "John";
-        ViewBag.LastName = "Doe";
+        ViewBag.Errors = new List<string>();
+        return View();
+    }
+    [HttpPost]
+    */
+
+    public IActionResult Sample([FromForm] SampleFormModel model)
+    {
+        ViewBag.Errors = new List<string>();
+        if (Request.Method == "POST")
+        {
+            if (string.IsNullOrEmpty(model.FirstName))
+            {
+                ModelState.AddModelError(nameof(model.FirstName), "First Name is required.");
+            }
+            if (string.IsNullOrEmpty(model.LastName))
+            {
+                ModelState.AddModelError(nameof(model.LastName), "Last Name is required.");
+            }
+        }
         return View();
     }
 
