@@ -1,28 +1,37 @@
 ﻿@using System.Diagnostics
+@model DemoMVC.Models.SampleFormModel
 @{
     // Razor syntax allows the use of code blocks with the @{} syntax.
     ViewData["Title"] = "Razor Sample";
     // You can also inject variables into the HTML using the @ symbol.
     string message = $"Welcome to MVC, {ViewData.ModelState["FirstName"]?.RawValue ?? ""} {ViewData.ModelState["LastName"]?.RawValue ?? ""}!";
-    Debug.WriteLine(ViewData.ModelState.IsValid);
 }
 
 <div class="text-center">
     <h1 class="display-4">@message</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <form asp-controller="Home" asp-action="Sample" method="post">
-        <input id="FirstName" name="FirstName" @*value="@(ViewBag.FirstName)"*@ type="text">
-        <input id="LastName" name="LastName" @*value="@(ViewBag.FirstName)"*@ type="text">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" role="alert">
+                Please correct the errors below.
+            </div>
+        }
+        @foreach (string key in Model.GetType().GetProperties().Select(x => x.Name))
+        {
+            <div class="form-group">
+                <label for="@key">@key</label>
+                <input class="form-control" name="@key" value="@(ViewData.ModelState[key]?.RawValue ??"")">
+                @if(ViewData.ModelState[key]?.Errors != null)
+                {
+                    @foreach (var error in ViewData.ModelState[key]?.Errors)
+                    {
+                        <span class="error">@error.ErrorMessage</span>
+                    }
+                }
+            </div>
+        }
         <input type="submit">
     </form>
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <ul>
-            @foreach (string error in ViewData.ModelState.Keys.SelectMany(key => ViewData.ModelState[key].Errors.Select(x =>
-           x.ErrorMessage)))
-            {
-                <li class="error">@error</li>
-            }
-        </ul>
-    }
+
 </div>

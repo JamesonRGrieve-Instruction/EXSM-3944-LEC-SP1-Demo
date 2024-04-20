@@ -45,7 +45,7 @@ public class HomeController : Controller
                 ModelState.AddModelError(nameof(model.LastName), "Last Name is required.");
             }
         }
-        return View();
+        return View(model ?? new SampleFormModel());
     }
 
     public IActionResult Privacy()

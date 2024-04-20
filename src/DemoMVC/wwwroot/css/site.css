@@ -26,6 +26,7 @@ body {
 }
 
 .error {
+  list-style: none;
   color: firebrick;
   font-weight: bolder;
 }
