@@ -44,6 +44,10 @@ public class HomeController : Controller
 
     public IActionResult Privacy()
     {
+        if (!User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction(nameof(Index));
+        }
         return View();
     }
 
