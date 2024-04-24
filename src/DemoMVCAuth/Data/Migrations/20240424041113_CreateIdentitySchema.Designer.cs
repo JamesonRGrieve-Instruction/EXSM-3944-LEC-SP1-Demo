@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoMVCAuth.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240424035402_CreateIdentitySchema")]
+    [Migration("20240424041113_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
         /// <inheritdoc />

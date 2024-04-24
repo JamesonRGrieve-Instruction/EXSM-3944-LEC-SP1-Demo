@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-DemoMVCAuth-843ada1b-2a31-439a-97a4-0aa8dc5b7833</UserSecretsId>
+    <UserSecretsId>aspnet-DemoMVCAuth-a2071917-2bbe-494c-a152-3db5800fbb81</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
