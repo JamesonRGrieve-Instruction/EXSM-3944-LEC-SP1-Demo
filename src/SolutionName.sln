@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DemoMVCAuth.Tests", "DemoMVCAuth.Tests", "{3060CD8D-E7FA-4A87-9C82-13EF41C22AD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoMVCAuth", "DemoMVCAuth\DemoMVCAuth.csproj", "{106D773F-D12D-45C1-A46C-5CC72560BDAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoMVCAuth.Tests.FrontEnd", "DemoMVCAuth.Tests\FrontEnd\DemoMVCAuth.Tests.FrontEnd.csproj", "{C67A23D9-19C8-4902-9715-52D25D5F06C8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DemoMVCAuth.Tests", "DemoMVCAuth.Tests", "{26C7748B-4609-49B0-B8C1-8D1B04B22A2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoMVCAuth.Tests.BackEnd", "DemoMVCAuth.Tests\BackEnd\DemoMVCAuth.Tests.BackEnd.csproj", "{A0C2088E-CDEA-445E-A74B-38815403CDDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoMVCAuth.Tests.FrontEnd", "DemoMVCAuth.Tests\FrontEnd\DemoMVCAuth.Tests.FrontEnd.csproj", "{6E4D2F3D-210F-4982-A7F2-32537B6DE13E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoMVCAuth.Tests.BackEnd", "DemoMVCAuth.Tests\BackEnd\DemoMVCAuth.Tests.BackEnd.csproj", "{81131302-4352-44A2-ACAB-F40DFB275274}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,17 +20,21 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C67A23D9-19C8-4902-9715-52D25D5F06C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C67A23D9-19C8-4902-9715-52D25D5F06C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C67A23D9-19C8-4902-9715-52D25D5F06C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C67A23D9-19C8-4902-9715-52D25D5F06C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0C2088E-CDEA-445E-A74B-38815403CDDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0C2088E-CDEA-445E-A74B-38815403CDDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0C2088E-CDEA-445E-A74B-38815403CDDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0C2088E-CDEA-445E-A74B-38815403CDDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{106D773F-D12D-45C1-A46C-5CC72560BDAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{106D773F-D12D-45C1-A46C-5CC72560BDAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{106D773F-D12D-45C1-A46C-5CC72560BDAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{106D773F-D12D-45C1-A46C-5CC72560BDAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E4D2F3D-210F-4982-A7F2-32537B6DE13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E4D2F3D-210F-4982-A7F2-32537B6DE13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E4D2F3D-210F-4982-A7F2-32537B6DE13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E4D2F3D-210F-4982-A7F2-32537B6DE13E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81131302-4352-44A2-ACAB-F40DFB275274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81131302-4352-44A2-ACAB-F40DFB275274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81131302-4352-44A2-ACAB-F40DFB275274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81131302-4352-44A2-ACAB-F40DFB275274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C67A23D9-19C8-4902-9715-52D25D5F06C8} = {3060CD8D-E7FA-4A87-9C82-13EF41C22AD8}
-		{A0C2088E-CDEA-445E-A74B-38815403CDDC} = {3060CD8D-E7FA-4A87-9C82-13EF41C22AD8}
+		{6E4D2F3D-210F-4982-A7F2-32537B6DE13E} = {26C7748B-4609-49B0-B8C1-8D1B04B22A2B}
+		{81131302-4352-44A2-ACAB-F40DFB275274} = {26C7748B-4609-49B0-B8C1-8D1B04B22A2B}
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,23 @@
-﻿@{
+﻿@model List<Student>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h2>Existing Students</h2>
+    <ul>
+        @foreach (Student student in Model)
+        {
+            <li>@student.FirstName @student.LastName</li>
+        }
+    </ul>
+    <form asp-action="Index">
+        <label for="FirstName">First Name:</label>
+        <input class="form-control" name="FirstName" value="@(ViewData.ModelState["FirstName"].RawValue??"")">
+        <label for="LastName">Last Name:</label>
+        <input class="form-control" name="LastName" value="@(ViewData.ModelState["LastName"].RawValue??"")">
+        <input type="submit">
+    </form>
 </div>
