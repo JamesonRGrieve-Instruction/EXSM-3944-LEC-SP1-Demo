@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using DemoMVC.Models;
+using DemoMVCAuth.Models;
 
-namespace DemoMVC.Controllers;
+namespace DemoMVCAuth.Controllers;
 
 public class HomeController : Controller
 {
@@ -13,11 +13,8 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    // According to the pathing schema defined in Program.cs, the controller will map views from the Views folder.
-    // By default it will take the name of the controller as the folder, and the name of the function as the .cshtml file.
     public IActionResult Index()
     {
-        // Returning View() will inject the view into the layout and send it to the client.
         return View();
     }
 
