@@ -1,6 +1,7 @@
 ﻿@model List<Student>
 @{
     ViewData["Title"] = "Home Page";
+
 }
 
 <div class="text-center">
@@ -14,6 +15,7 @@
         }
     </ul>
     <form asp-action="Index">
+        <input name="UserID" value="@User.Identity.Name" type="hidden" />
         <label for="FirstName">First Name:</label>
         <input class="form-control" name="FirstName" value="@(ViewData.ModelState["FirstName"].RawValue??"")">
         <label for="LastName">Last Name:</label>

@@ -35,7 +35,7 @@ public class HomeController : Controller
             }
             if (ModelState.IsValid)
             {
-                student.UserID = User.Identity.Name;
+                // student.UserID = User.Identity.Name;
                 students.Add(student);
             }
         }
