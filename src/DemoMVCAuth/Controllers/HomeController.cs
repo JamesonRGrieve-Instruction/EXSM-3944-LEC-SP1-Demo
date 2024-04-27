@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DemoMVCAuth.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DemoMVCAuth.Controllers;
 
@@ -41,13 +42,13 @@ public class HomeController : Controller
         }
         return View(students.Where(student => student.UserID == User.Identity.Name).ToList());
     }
-
+    [Authorize]
     public IActionResult Privacy()
     {
-        if (!User.Identity.IsAuthenticated)
-        {
-            return RedirectToAction(nameof(Index));
-        }
+        //if (!User.Identity.IsAuthenticated)
+        //{
+        //return RedirectToAction(nameof(Index));
+        //}
         return View();
     }
 
