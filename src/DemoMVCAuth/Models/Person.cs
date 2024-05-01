@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace DemoProject.Models;
 
@@ -21,4 +22,10 @@ public class Person
     [ForeignKey(nameof(JobID))]
     [InverseProperty(nameof(Models.Job.People))]
     public virtual Job Job { get; set; }
+
+    [Column("user_id")]
+    public string? UserID { get; set; }
+
+    [ForeignKey(nameof(UserID))]
+    public virtual IdentityUser User { get; set; }
 }
