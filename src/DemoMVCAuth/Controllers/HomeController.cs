@@ -7,22 +7,13 @@ namespace DemoMVCAuth.Controllers;
 
 public class HomeController : Controller
 {
-    /*
-    private List<Student> students = new List<Student>() {
-        new Student() {
-            UserID= "jgrieve@ualberta.ca",
-            FirstName = "John",
-            LastName = "Doe"
-        }
-    };
-    */
+
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
     }
-
 
     public IActionResult Index(/*[FromForm] Student student*/)
     {

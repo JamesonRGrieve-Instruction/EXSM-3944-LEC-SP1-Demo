@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DemoMVCAuth.Data;
 using DemoProject.Models;
-
+using System.Security.Principal;
+using System.Security.Claims;
 namespace DemoMVCAuth.Controllers
 {
     public class PersonController : Controller
@@ -22,7 +23,7 @@ namespace DemoMVCAuth.Controllers
         // GET: Person
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.People.Include(p => p.Job).Include(p => p.User);
+            var applicationDbContext = _context.People.Where(p => p.UserID == User.FindFirstValue(ClaimTypes.NameIdentifier) || p.UserID == null).Include(p => p.Job);
             return View(await applicationDbContext.ToListAsync());
         }
 
