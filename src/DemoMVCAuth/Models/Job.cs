@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DemoProject.Models;
 
@@ -14,5 +15,6 @@ public class Job
     public string Name { get; set; } = "";
 
     [InverseProperty(nameof(Person.Job))]
+    [ValidateNever]
     public virtual ICollection<Person> People { get; set; }
 }
