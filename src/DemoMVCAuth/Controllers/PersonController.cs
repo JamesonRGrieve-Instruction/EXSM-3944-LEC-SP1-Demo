@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DemoMVCAuth.Data;
 using DemoProject.Models;
-using System.Security.Principal;
 using System.Security.Claims;
 namespace DemoMVCAuth.Controllers
 {
