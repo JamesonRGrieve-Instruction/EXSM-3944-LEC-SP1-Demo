@@ -13,11 +13,14 @@ public class Person
     [Column("id")]
     public int ID { get; set; }
     [Column("first_name", TypeName = "varchar(30)")]
+    [Display(Name = "First Name")]
     public string FirstName { get; set; } = "";
     [Column("last_name", TypeName = "varchar(30)")]
+    [Display(Name = "Last Name")]
     public string LastName { get; set; } = "";
 
     [Column("job_id")]
+    [Display(Name = "Job")]
     public int JobID { get; set; }
 
     [ForeignKey(nameof(JobID))]

@@ -84,8 +84,7 @@ namespace DemoMVCAuth.Controllers
             {
                 return NotFound();
             }
-            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "ID", person.JobID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", person.UserID);
+            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", person.JobID);
             return View(person);
         }
 
@@ -121,8 +120,7 @@ namespace DemoMVCAuth.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "ID", person.JobID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", person.UserID);
+            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", person.JobID);
             return View(person);
         }
 

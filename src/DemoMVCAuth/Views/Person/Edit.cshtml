@@ -1,3 +1,4 @@
+@using System.Security.Claims
 @model DemoProject.Models.Person
 
 @{
@@ -28,10 +29,11 @@
                 <select asp-for="JobID" class="form-control" asp-items="ViewBag.JobID"></select>
                 <span asp-validation-for="JobID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="UserID" class="control-label"></label>
-                <select asp-for="UserID" class="form-control" asp-items="ViewBag.UserID"></select>
-                <span asp-validation-for="UserID" class="text-danger"></span>
+            <input type="hidden" asp-for="UserID" value="@(User.FindFirstValue(ClaimTypes.NameIdentifier))" />
+            <div class="form-check">
+                <input id="PubliclyVisible" name="PubliclyVisible" type="checkbox" class="form-check-input"
+                    value="@ViewBag.PubliclyVisible" />
+                <label class="form-check-label" for="PubliclyVisible">Publicly Visible</label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -43,4 +45,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
