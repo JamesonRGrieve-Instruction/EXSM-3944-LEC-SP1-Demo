@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DemoMVCAuth.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace DemoMVCAuth.Controllers;
 
@@ -15,36 +14,12 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index(/*[FromForm] Student student*/)
+    public IActionResult Index()
     {
-        /*
-        if (Request.Method == "POST")
-        {
-            if (string.IsNullOrEmpty(student.FirstName))
-            {
-                ModelState.AddModelError("FirstName", "First Name is required.");
-            }
-            if (string.IsNullOrEmpty(student.LastName))
-            {
-                ModelState.AddModelError("LastName", "Last Name is required.");
-            }
-            if (ModelState.IsValid)
-            {
-                // student.UserID = User.Identity.Name;
-                students.Add(student);
-            }
-        }
-        */
-        return View(/*students.Where(student => student.UserID == User.Identity.Name).ToList()*/);
-
+        return View();
     }
-    //[Authorize]
     public IActionResult Privacy()
     {
-        //if (!User.Identity.IsAuthenticated)
-        //{
-        //return RedirectToAction(nameof(Index));
-        //}
         return View();
     }
 
