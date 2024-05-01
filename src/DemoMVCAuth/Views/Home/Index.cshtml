@@ -1,5 +1,4 @@
-﻿@model List<Student>
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 
 }
@@ -9,17 +8,14 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <h2>Existing Students</h2>
     <ul>
-        @foreach (Student student in Model)
-        {
-            <li>@student.FirstName @student.LastName</li>
-        }
+
     </ul>
     <form asp-action="Index">
-        <input name="UserID" value="@User.Identity.Name" type="hidden" />
+        <input name="UserID" value="" type="hidden" />
         <label for="FirstName">First Name:</label>
-        <input class="form-control" name="FirstName" value="@(ViewData.ModelState["FirstName"].RawValue??"")">
+        <input class="form-control" name="FirstName" value="">
         <label for="LastName">Last Name:</label>
-        <input class="form-control" name="LastName" value="@(ViewData.ModelState["LastName"].RawValue??"")">
+        <input class="form-control" name="LastName" value="">
         <input type="submit">
     </form>
 </div>

@@ -7,6 +7,7 @@ namespace DemoMVCAuth.Controllers;
 
 public class HomeController : Controller
 {
+    /*
     private List<Student> students = new List<Student>() {
         new Student() {
             UserID= "jgrieve@ualberta.ca",
@@ -14,6 +15,7 @@ public class HomeController : Controller
             LastName = "Doe"
         }
     };
+    */
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -22,8 +24,9 @@ public class HomeController : Controller
     }
 
 
-    public IActionResult Index([FromForm] Student student)
+    public IActionResult Index(/*[FromForm] Student student*/)
     {
+        /*
         if (Request.Method == "POST")
         {
             if (string.IsNullOrEmpty(student.FirstName))
@@ -40,9 +43,11 @@ public class HomeController : Controller
                 students.Add(student);
             }
         }
-        return View(students.Where(student => student.UserID == User.Identity.Name).ToList());
+        */
+        return View(/*students.Where(student => student.UserID == User.Identity.Name).ToList()*/);
+
     }
-    [Authorize]
+    //[Authorize]
     public IActionResult Privacy()
     {
         //if (!User.Identity.IsAuthenticated)
