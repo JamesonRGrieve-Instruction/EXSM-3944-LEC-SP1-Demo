@@ -45,8 +45,8 @@ namespace DemoMVCAuth.Controllers
         // GET: Person/Create
         public IActionResult Create()
         {
-            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "ID");
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name");
+
             return View();
         }
 
@@ -55,16 +55,19 @@ namespace DemoMVCAuth.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobID,UserID")] Person person)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobID,UserID")] Person person, string PubliclyVisible)
         {
             if (ModelState.IsValid)
             {
+                if (PubliclyVisible == "on")
+                {
+                    person.UserID = null;
+                }
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "ID", person.JobID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", person.UserID);
+            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", person.JobID);
             return View(person);
         }
 
