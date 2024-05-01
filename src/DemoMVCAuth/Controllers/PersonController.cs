@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using DemoMVCAuth.Data;
 using DemoProject.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 namespace DemoMVCAuth.Controllers
 {
     public class PersonController : Controller
@@ -54,6 +55,7 @@ namespace DemoMVCAuth.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobID,UserID")] Person person, string PubliclyVisible)
         {
@@ -92,16 +94,30 @@ namespace DemoMVCAuth.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobID,UserID")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobID,UserID")] Person person, string PubliclyVisible)
         {
             if (id != person.ID)
             {
                 return NotFound();
             }
+            if (person.UserID != User.FindFirstValue(ClaimTypes.NameIdentifier) && person.UserID != null)
+            {
+                return Unauthorized();
+            }
+            var existingPerson = await _context.People.AsNoTracking().FirstOrDefaultAsync(p => p.ID == person.ID);
+            if (existingPerson != null && existingPerson.UserID != person.UserID && person.UserID != null)
+            {
+                ModelState.AddModelError(nameof(Person.UserID), "Cannot change the UserID of a person or set a null UserID to a value, it can only be set from a value to null.");
+            }
 
             if (ModelState.IsValid)
             {
+                if (PubliclyVisible == "on")
+                {
+                    person.UserID = null;
+                }
                 try
                 {
                     _context.Update(person);
@@ -147,6 +163,7 @@ namespace DemoMVCAuth.Controllers
         // POST: Person/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var person = await _context.People.FindAsync(id);

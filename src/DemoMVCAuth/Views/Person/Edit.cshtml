@@ -31,9 +31,10 @@
             </div>
             <input type="hidden" asp-for="UserID" value="@(User.FindFirstValue(ClaimTypes.NameIdentifier))" />
             <div class="form-check">
-                <input id="PubliclyVisible" name="PubliclyVisible" type="checkbox" class="form-check-input"
-                    value="@ViewBag.PubliclyVisible" />
+                <input id="PubliclyVisible" @(Model.UserID == null ? "checked" : "") name="PubliclyVisible"
+                    type="checkbox" class="form-check-input" value="@ViewBag.PubliclyVisible" />
                 <label class="form-check-label" for="PubliclyVisible">Publicly Visible</label>
+                <span asp-validation-for="UserID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
