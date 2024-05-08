@@ -60,6 +60,7 @@ namespace DemoMVCAuth.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,PhoneNumber,JobID,UserID")] Person person, [ValidateNever] string PubliclyVisible)
         {
+            ModelState.Remove(nameof(PubliclyVisible));
             if (string.IsNullOrWhiteSpace(person.FirstName))
             {
                 ModelState.AddModelError(nameof(Person.FirstName), "First Name is required.");
