@@ -56,8 +56,8 @@ namespace DemoMVCAuth.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
+        //[Authorize]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,PhoneNumber,JobID,UserID")] Person person, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName)
         {
             ModelState.Remove(nameof(PubliclyVisible));
@@ -82,7 +82,22 @@ namespace DemoMVCAuth.Controllers
             ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", person.JobID);
             ViewBag.PubliclyVisible = PubliclyVisible;
             ViewBag.JobName = JobName;
-            return View(person);
+            if (Request.Headers["Accept"].ToString().Split(",").Contains("text/html"))
+            {
+                return View(person);
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    return Ok(person);
+                }
+                else
+                {
+                    return BadRequest(ModelState.Select(kvp => new { kvp.Key, kvp.Value.Errors }));
+                }
+            }
+
         }
 
         // GET: Person/Edit/5
