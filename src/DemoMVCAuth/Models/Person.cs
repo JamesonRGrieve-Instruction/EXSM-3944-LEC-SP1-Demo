@@ -17,11 +17,10 @@ public class PhoneNumberFormat : ValidationAttribute
         }
         else
         {
-            throw new ArgumentException("Value must be a string.", nameof(value));
+            return false;
         }
     }
 }
-
 [Table("person")]
 public class Person
 {
