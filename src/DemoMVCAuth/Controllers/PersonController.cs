@@ -65,6 +65,24 @@ namespace DemoMVCAuth.Controllers
                 {
                     person.UserID = null;
                 }
+                if (string.IsNullOrWhiteSpace(person.FirstName))
+                {
+                    ModelState.AddModelError(nameof(Person.FirstName), "First Name is required.");
+                }
+                if (string.IsNullOrWhiteSpace(person.LastName))
+                {
+                    ModelState.AddModelError(nameof(Person.LastName), "Last Name is required.");
+                }
+                string[] phoneNumberParts = person.PhoneNumber.Split('-');
+                if (string.IsNullOrWhiteSpace(person.PhoneNumber))
+                {
+                    ModelState.AddModelError(nameof(Person.PhoneNumber), "Phone Number is required.");
+                }
+                else if (phoneNumberParts[0].Length != 3 || phoneNumberParts[1].Length != 3 || phoneNumberParts[2].Length != 4)
+                {
+                    ModelState.AddModelError(nameof(Person.PhoneNumber), "Phone Number must be in the format ###-###-####.");
+                }
+
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

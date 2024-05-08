@@ -18,6 +18,10 @@ public class Person
     [Column("last_name", TypeName = "varchar(30)")]
     [Display(Name = "Last Name")]
     public string LastName { get; set; } = "";
+    [Column("phone_number", TypeName = "char(12)")]
+    [Display(Name = "Phone Number")]
+    public string PhoneNumber { get; set; } = "";
+
 
     [Column("job_id")]
     [Display(Name = "Job")]
