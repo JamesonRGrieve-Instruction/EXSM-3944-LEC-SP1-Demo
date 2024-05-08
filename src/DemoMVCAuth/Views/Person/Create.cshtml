@@ -30,12 +30,19 @@
             </div>
             <div class="form-group">
                 <label asp-for="JobID" class="control-label"></label>
-                <select asp-for="JobID" class="form-control" asp-items="ViewBag.JobID"></select>
+                <select asp-for="JobID" class="form-control" asp-items="ViewBag.JobID">
+                    <option value="0">Create New Job</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="JobName" class="control-label">Job Name (For Creation of New Job)</label>
+                <input name="JobName" class="form-control" value="@ViewBag.JobName" />
+                <span class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="UserID" value="@(User.FindFirstValue(ClaimTypes.NameIdentifier))" />
             <div class="form-check">
                 <input id="PubliclyVisible" name="PubliclyVisible" type="checkbox" class="form-check-input"
-                    value="@ViewBag.PubliclyVisible" />
+                @(ViewBag.PubliclyVisible == "on" ? "checked" : "") />
                 <label class="form-check-label" for="PubliclyVisible">Publicly Visible</label>
             </div>
             <div class="form-group">

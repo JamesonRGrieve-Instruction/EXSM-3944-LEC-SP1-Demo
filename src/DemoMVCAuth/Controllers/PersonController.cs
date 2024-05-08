@@ -58,11 +58,19 @@ namespace DemoMVCAuth.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,PhoneNumber,JobID,UserID")] Person person, [ValidateNever] string PubliclyVisible)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,PhoneNumber,JobID,UserID")] Person person, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName)
         {
             ModelState.Remove(nameof(PubliclyVisible));
+            ModelState.Remove(nameof(JobName));
             if (ModelState.IsValid)
             {
+                if (person.JobID == 0)
+                {
+                    Job newJob = new Job() { Name = JobName };
+                    _context.Jobs.Add(newJob);
+                    _context.SaveChanges();
+                    person.JobID = newJob.ID;
+                }
                 if (PubliclyVisible == "on")
                 {
                     person.UserID = null;
@@ -72,6 +80,8 @@ namespace DemoMVCAuth.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", person.JobID);
+            ViewBag.PubliclyVisible = PubliclyVisible;
+            ViewBag.JobName = JobName;
             return View(person);
         }
 
