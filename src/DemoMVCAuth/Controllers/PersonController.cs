@@ -61,23 +61,6 @@ namespace DemoMVCAuth.Controllers
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,PhoneNumber,JobID,UserID")] Person person, [ValidateNever] string PubliclyVisible)
         {
             ModelState.Remove(nameof(PubliclyVisible));
-            if (string.IsNullOrWhiteSpace(person.FirstName))
-            {
-                ModelState.AddModelError(nameof(Person.FirstName), "First Name is required.");
-            }
-            if (string.IsNullOrWhiteSpace(person.LastName))
-            {
-                ModelState.AddModelError(nameof(Person.LastName), "Last Name is required.");
-            }
-            string[] phoneNumberParts = person.PhoneNumber.Split('-');
-            if (string.IsNullOrWhiteSpace(person.PhoneNumber))
-            {
-                ModelState.AddModelError(nameof(Person.PhoneNumber), "Phone Number is required.");
-            }
-            else if (phoneNumberParts[0].Length != 3 || phoneNumberParts[1].Length != 3 || phoneNumberParts[2].Length != 4)
-            {
-                ModelState.AddModelError(nameof(Person.PhoneNumber), "Phone Number must be in the format ###-###-####.");
-            }
             if (ModelState.IsValid)
             {
                 if (PubliclyVisible == "on")
