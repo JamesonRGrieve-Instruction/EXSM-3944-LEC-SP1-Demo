@@ -47,6 +47,7 @@ namespace DemoMVCAuth.Controllers
         // GET: Person/Create
         public IActionResult Create()
         {
+            ViewData["IndustryItems"] = new SelectList(_context.Industries, "ID", "Name");
             ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name");
 
             return View();
@@ -58,7 +59,7 @@ namespace DemoMVCAuth.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,PhoneNumber,JobID,UserID")] Person person, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,PhoneNumber,JobID,UserID")] Person person, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName, [ValidateNever] string IndustryID, [ValidateNever] string IndustryName)
         {
             ModelState.Remove(nameof(PubliclyVisible));
             ModelState.Remove(nameof(JobName));
@@ -79,9 +80,13 @@ namespace DemoMVCAuth.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", person.JobID);
+            ViewData["IndustryItems"] = new SelectList(_context.Industries, "ID", "Name");
+            ((SelectList)ViewData["IndustryItems"]).Where(item => item.Value == IndustryID).Single().Selected = true;
+            ViewData["JobID"] = new SelectList(!string.IsNullOrWhiteSpace(IndustryID) ? _context.Jobs.Where(job => job.IndustryID == int.Parse(IndustryID)).ToList() : _context.Jobs, "ID", "Name", person.JobID);
             ViewBag.PubliclyVisible = PubliclyVisible;
             ViewBag.JobName = JobName;
+            ViewBag.IndustryName = IndustryName;
+            ViewBag.IndustryID = IndustryID;
             return View(person);
         }
 

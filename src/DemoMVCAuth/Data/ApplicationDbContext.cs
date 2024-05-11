@@ -13,6 +13,7 @@ public class ApplicationDbContext : IdentityDbContext
 
     public virtual DbSet<Person> People { get; set; }
     public virtual DbSet<Job> Jobs { get; set; }
+    public virtual DbSet<Industry> Industries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
