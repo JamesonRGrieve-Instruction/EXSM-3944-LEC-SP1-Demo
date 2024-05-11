@@ -36,7 +36,8 @@
             </div>
             <div class="form-group">
                 <label for="IndustryName" class="control-label">Industry Name (For Creation of New Industry)</label>
-                <input name="IndustryName" class="form-control" value="@ViewBag.IndustryName" />
+                <input name="IndustryName" class="form-control" value="@ViewBag.IndustryName" @(ViewBag.IndustryID ==
+                    "0" ? "" : "disabled") />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">

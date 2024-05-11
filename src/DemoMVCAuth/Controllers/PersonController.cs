@@ -49,7 +49,7 @@ namespace DemoMVCAuth.Controllers
         {
             ViewData["IndustryItems"] = new SelectList(_context.Industries, "ID", "Name");
             ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name");
-
+            ViewBag.IndustryID = "0";
             return View();
         }
 
@@ -81,7 +81,11 @@ namespace DemoMVCAuth.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IndustryItems"] = new SelectList(_context.Industries, "ID", "Name");
-            ((SelectList)ViewData["IndustryItems"]).Where(item => item.Value == IndustryID).Single().Selected = true;
+
+            if (IndustryID != "0")
+            {
+                ((SelectList)ViewData["IndustryItems"]).Where(item => item.Value == IndustryID).Single().Selected = true;
+            }
             ViewData["JobID"] = new SelectList(!string.IsNullOrWhiteSpace(IndustryID) && IndustryID != "0" ? _context.Jobs.Where(job => job.IndustryID == int.Parse(IndustryID)).ToList() : _context.Jobs, "ID", "Name", person.JobID);
             ViewBag.PubliclyVisible = PubliclyVisible;
             ViewBag.JobName = JobName;
