@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DemoProject.Models;
 
-[Table("job")]
-public class Job
+[Table("industry")]
+public class Industry
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,17 +14,7 @@ public class Job
     [Column("name")]
     public string Name { get; set; } = "";
 
-    [InverseProperty(nameof(Person.Job))]
+    [InverseProperty(nameof(Job.Industry))]
     [ValidateNever]
-    public virtual ICollection<Person> People { get; set; }
-
-
-    [Column("industry_id")]
-    [Display(Name = "Industry")]
-    public int IndustryID { get; set; }
-
-    [ForeignKey(nameof(IndustryID))]
-    [InverseProperty(nameof(Industry.Jobs))]
-    [ValidateNever]
-    public virtual Industry Industry { get; set; }
+    public virtual ICollection<Job> Jobs { get; set; }
 }

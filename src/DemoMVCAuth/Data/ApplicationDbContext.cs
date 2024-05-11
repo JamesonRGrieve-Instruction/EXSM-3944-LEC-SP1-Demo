@@ -16,6 +16,17 @@ public class ApplicationDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Industry>(entity =>
+        {
+            entity.HasData([
+                new Industry() {
+                    ID = -1,
+                    Name = "Transportation"
+                }
+            ]);
+        });
+
+
         modelBuilder.Entity<Job>(entity =>
         {
             entity.HasData([
