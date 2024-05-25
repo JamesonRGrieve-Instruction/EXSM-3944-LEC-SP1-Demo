@@ -6,48 +6,11 @@ using DemoProject.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Globalization;
-using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 namespace DemoMVCAuth.Controllers
 {
-    public class PersonModelBinder : IModelBinder
-    {
-        public Task BindModelAsync(ModelBindingContext bindingContext)
-        {
-            if (bindingContext == null)
-            {
-                throw new ArgumentNullException(nameof(bindingContext));
-            }
-
-            string contentType = bindingContext.HttpContext.Request.ContentType;
-
-            if (contentType.Contains("application/json"))
-            {
-                using var reader = new StreamReader(bindingContext.HttpContext.Request.Body);
-                var body = reader.ReadToEndAsync().Result;
-                var person = JsonConvert.DeserializeObject<Person>(body);
-                bindingContext.Result = ModelBindingResult.Success(person);
-            }
-            else if (contentType.Contains("multipart/form-data") || contentType.Contains("application/x-www-form-urlencoded"))
-            {
-                var form = bindingContext.HttpContext.Request.Form;
-                var person = new Person
-                {
-                    // Assuming you have properties like FirstName, LastName, etc.
-                    FirstName = form["FirstName"],
-                    LastName = form["LastName"],
-                    PhoneNumber = form["PhoneNumber"],
-                    JobID = int.Parse(form["JobID"]),
-                    // Add other properties
-                };
-                bindingContext.Result = ModelBindingResult.Success(person);
-            }
-
-            return Task.CompletedTask;
-        }
-    }
+    [ApiController]
+    [Route("[controller]/[action]")]
     public class PersonController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -61,6 +24,7 @@ namespace DemoMVCAuth.Controllers
 
 
         // GET: Person
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.People.Where(p => p.UserID == User.FindFirstValue(ClaimTypes.NameIdentifier) || p.UserID == null).Include(p => p.Job);
@@ -68,6 +32,7 @@ namespace DemoMVCAuth.Controllers
         }
 
         // GET: Person/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -88,6 +53,7 @@ namespace DemoMVCAuth.Controllers
         }
 
         // GET: Person/Create
+        [HttpGet]
         public IActionResult Create()
         {
             ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name");
@@ -101,8 +67,17 @@ namespace DemoMVCAuth.Controllers
         [HttpPost]
         //[Authorize]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([ModelBinder(BinderType = typeof(PersonModelBinder))] Person newPerson, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName)
+        [SwaggerOperation(
+            Summary = "Create a Person",
+            Description = "Create a person in the database.",
+            OperationId = "PostPerson",
+            Tags = new[] { "API", "Person" }
+        )]
+        [SwaggerResponse(201, "Success", typeof(Person))]
+        [SwaggerResponse(400, "Bad Request", typeof(string))]
+        public async Task<IActionResult> Create([ModelBinder(BinderType = typeof(MultiContentTypeBinder<Person>))] Person newPerson, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName)
         {
+            bool isAPI = !Request.Headers["Accept"].ToString().Split(",").Contains("text/html");
             ModelState.Remove(nameof(PubliclyVisible));
             ModelState.Remove(nameof(JobName));
             if (ModelState.IsValid)
@@ -120,30 +95,33 @@ namespace DemoMVCAuth.Controllers
                 }
                 _context.Add(newPerson);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", newPerson.JobID);
-            ViewBag.PubliclyVisible = PubliclyVisible;
-            ViewBag.JobName = JobName;
-            if (Request.Headers["Accept"].ToString().Split(",").Contains("text/html"))
-            {
-                return View(newPerson);
-            }
-            else
-            {
-                if (ModelState.IsValid)
+                if (isAPI)
                 {
                     return Ok(newPerson);
                 }
                 else
                 {
-                    return BadRequest(ModelState.Select(kvp => new { kvp.Key, kvp.Value.Errors }));
+                    return RedirectToAction(nameof(Index));
                 }
             }
-
+            else
+            {
+                if (isAPI)
+                {
+                    return BadRequest(ModelState.Select(kvp => new { kvp.Key, kvp.Value.Errors }));
+                }
+                else
+                {
+                    ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", newPerson.JobID);
+                    ViewBag.PubliclyVisible = PubliclyVisible;
+                    ViewBag.JobName = JobName;
+                    return View(newPerson);
+                }
+            }
         }
 
         // GET: Person/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -211,6 +189,7 @@ namespace DemoMVCAuth.Controllers
         }
 
         // GET: Person/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -231,7 +210,7 @@ namespace DemoMVCAuth.Controllers
         }
 
         // POST: Person/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
