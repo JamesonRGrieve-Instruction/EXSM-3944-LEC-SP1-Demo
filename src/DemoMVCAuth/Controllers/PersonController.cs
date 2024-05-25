@@ -6,8 +6,48 @@ using DemoProject.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Globalization;
+using Newtonsoft.Json;
 namespace DemoMVCAuth.Controllers
 {
+    public class PersonModelBinder : IModelBinder
+    {
+        public Task BindModelAsync(ModelBindingContext bindingContext)
+        {
+            if (bindingContext == null)
+            {
+                throw new ArgumentNullException(nameof(bindingContext));
+            }
+
+            string contentType = bindingContext.HttpContext.Request.ContentType;
+
+            if (contentType.Contains("application/json"))
+            {
+                using var reader = new StreamReader(bindingContext.HttpContext.Request.Body);
+                var body = reader.ReadToEndAsync().Result;
+                var person = JsonConvert.DeserializeObject<Person>(body);
+                bindingContext.Result = ModelBindingResult.Success(person);
+            }
+            else if (contentType.Contains("multipart/form-data") || contentType.Contains("application/x-www-form-urlencoded"))
+            {
+                var form = bindingContext.HttpContext.Request.Form;
+                var person = new Person
+                {
+                    // Assuming you have properties like FirstName, LastName, etc.
+                    FirstName = form["FirstName"],
+                    LastName = form["LastName"],
+                    PhoneNumber = form["PhoneNumber"],
+                    JobID = int.Parse(form["JobID"]),
+                    // Add other properties
+                };
+                bindingContext.Result = ModelBindingResult.Success(person);
+            }
+
+            return Task.CompletedTask;
+        }
+    }
     public class PersonController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -16,6 +56,9 @@ namespace DemoMVCAuth.Controllers
         {
             _context = context;
         }
+
+
+
 
         // GET: Person
         public async Task<IActionResult> Index()
@@ -58,39 +101,39 @@ namespace DemoMVCAuth.Controllers
         [HttpPost]
         //[Authorize]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,PhoneNumber,JobID,UserID")] Person person, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName)
+        public async Task<IActionResult> Create([ModelBinder(BinderType = typeof(PersonModelBinder))] Person newPerson, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName)
         {
             ModelState.Remove(nameof(PubliclyVisible));
             ModelState.Remove(nameof(JobName));
             if (ModelState.IsValid)
             {
-                if (person.JobID == 0)
+                if (newPerson.JobID == 0)
                 {
                     Job newJob = new Job() { Name = JobName };
                     _context.Jobs.Add(newJob);
                     _context.SaveChanges();
-                    person.JobID = newJob.ID;
+                    newPerson.JobID = newJob.ID;
                 }
                 if (PubliclyVisible == "on")
                 {
-                    person.UserID = null;
+                    newPerson.UserID = null;
                 }
-                _context.Add(person);
+                _context.Add(newPerson);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", person.JobID);
+            ViewData["JobID"] = new SelectList(_context.Jobs, "ID", "Name", newPerson.JobID);
             ViewBag.PubliclyVisible = PubliclyVisible;
             ViewBag.JobName = JobName;
             if (Request.Headers["Accept"].ToString().Split(",").Contains("text/html"))
             {
-                return View(person);
+                return View(newPerson);
             }
             else
             {
                 if (ModelState.IsValid)
                 {
-                    return Ok(person);
+                    return Ok(newPerson);
                 }
                 else
                 {
