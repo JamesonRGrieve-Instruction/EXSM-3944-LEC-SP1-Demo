@@ -141,6 +141,7 @@ namespace DemoMVCAuth.Controllers
         // POST: Person/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPut]
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -213,6 +214,7 @@ namespace DemoMVCAuth.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
+        [HttpDelete]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var person = await _context.People.FindAsync(id);
