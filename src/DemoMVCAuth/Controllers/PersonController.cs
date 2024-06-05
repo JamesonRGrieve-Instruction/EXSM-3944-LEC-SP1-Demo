@@ -75,7 +75,7 @@ namespace DemoMVCAuth.Controllers
         )]
         [SwaggerResponse(201, "Success", typeof(Person))]
         [SwaggerResponse(400, "Bad Request", typeof(string))]
-        public async Task<IActionResult> Create([ModelBinder(BinderType = typeof(MultiContentTypeBinder<Person>))] Person newPerson, [ValidateNever] string PubliclyVisible, [ValidateNever] string JobName)
+        public async Task<IActionResult> Create([ModelBinder(BinderType = typeof(MultiContentTypeBinder<Person>))] Person newPerson, [ValidateNever] string? JobName, [ValidateNever] string PubliclyVisible = "off")
         {
             bool isAPI = !Request.Headers["Accept"].ToString().Split(",").Contains("text/html");
             ModelState.Remove(nameof(PubliclyVisible));
